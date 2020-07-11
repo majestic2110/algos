@@ -1,19 +1,23 @@
 package com.mp.cp;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Q0001_TwoSum {
-    public int[] twoSum(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
+public class Q0167_TwoSumII_InputArrayIsSorted {
+    public int[] twoSum(int[] numbers, int target) {
+        if (numbers == null || numbers.length == 0) {
             return new int[]{};
         }
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                return new int[]{map.get(target - nums[i]), i};
+        int n = numbers.length;
+        int left = 0;
+        int right = n - 1;
+        int sum = 0;
+        while (left < right) {
+            sum = numbers[left] + numbers[right];
+            if (sum == target) {
+                return new int[]{left + 1, right + 1};
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
             }
-            map.put(nums[i], i);
         }
         return new int[]{};
     }

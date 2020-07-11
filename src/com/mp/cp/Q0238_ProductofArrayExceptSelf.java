@@ -1,17 +1,20 @@
 package com.mp.cp;
 
-public class Q0026_RemoveDuplicates {
-    public int removeDuplicates(int[] nums) {
+public class Q0238_ProductofArrayExceptSelf {
+    public int[] productExceptSelf(int[] nums) {
         if (nums == null || nums.length == 0) {
-            return 0;
+            return nums;
         }
-        int i = 0;
-        nums[i] = nums[0];
-        for (int j = 1; j < nums.length; j++) {
-            if (nums[j] != nums[j - 1]) {
-                nums[++i] = nums[j];
-            }
+        int[] res = new int[nums.length];
+        res[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            res[i] = res[i - 1] * nums[i - 1];
         }
-        return i + 1;
+        int right = 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            res[i] = res[i] * right;
+            right *= nums[i];
+        }
+        return res;
     }
 }

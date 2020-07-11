@@ -1,51 +1,57 @@
 package com.mp.cp;
 
-public class G_Mock_Q003_LicenseKeyFormatting {
+public class G_Mock_Q003_LongestAbsoluteFilePath {
     /**
-     * You are given a license key represented as a string S which consists only alphanumeric character and dashes. The string is separated into N+1 groups by N dashes.
+     * Suppose we abstract our file system by a string in the following manner:
      * <p>
-     * Given a number K, we would want to reformat the strings such that each group contains exactly K characters, except for the first group which could be shorter than K, but still must contain at least one character. Furthermore, there must be a dash inserted between two groups and all lowercase letters should be converted to uppercase.
+     * The string "dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext" represents:
      * <p>
-     * Given a non-empty string S and a number K, format the string according to the rules described above.
+     * dir
+     * subdir1
+     * subdir2
+     * file.ext
+     * The directory dir contains an empty sub-directory subdir1 and a sub-directory subdir2 containing a file file.ext.
      * <p>
-     * Example 1:
-     * Input: S = "5F3Z-2e-9-w", K = 4
+     * The string "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext" represents:
      * <p>
-     * Output: "5F3Z-2E9W"
+     * dir
+     * subdir1
+     * file1.ext
+     * subsubdir1
+     * subdir2
+     * subsubdir2
+     * file2.ext
+     * The directory dir contains two sub-directories subdir1 and subdir2. subdir1 contains a file file1.ext and an empty second-level sub-directory subsubdir1. subdir2 contains a second-level sub-directory subsubdir2 containing a file file2.ext.
      * <p>
-     * Explanation: The string S has been split into two parts, each part has 4 characters.
-     * Note that the two extra dashes are not needed and can be removed.
-     * Example 2:
-     * Input: S = "2-5g-3-J", K = 2
+     * We are interested in finding the longest (number of characters) absolute path to a file within our file system. For example, in the second example above, the longest absolute path is "dir/subdir2/subsubdir2/file2.ext", and its length is 32 (not including the double quotes).
      * <p>
-     * Output: "2-5G-3J"
+     * Given a string representing the file system in the above format, return the length of the longest absolute path to file in the abstracted file system. If there is no file in the system, return 0.
      * <p>
-     * Explanation: The string S has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
      * Note:
-     * The length of string S will not exceed 12,000, and K is a positive integer.
-     * String S consists only of alphanumerical characters (a-z and/or A-Z and/or 0-9) and dashes(-).
-     * String S is non-empty.
+     * The name of a file contains at least a . and an extension.
+     * The name of a directory or sub-directory will not contain a ..
+     * Time complexity required: O(n) where n is the size of the input string.
+     * <p>
+     * Notice that a/aa/aaa/file1.txt is not the longest file path, if there is another path aaaaaaaaaaaaaaaaaaaaa/sth.png.
      *
-     * @param S
-     * @param K
+     * @param input
      * @return
      */
-    public String licenseKeyFormatting(String S, int K) {
-        if (S == null || S.length() == 0) {
-            return "";
+    public int lengthLongestPath(String input) {
+        if (input == null || input.length() == 0) {
+            return 0;
         }
-        StringBuffer buff = new StringBuffer();
-        int ct = 0;
-        for (int i = S.length() - 1; i >= 0; i--) {
-            char ch = S.charAt(i);
-            if (ch != '-') {
-                if (ct > 0 && ct % K == 0) {
-                    buff.append('-');
-                }
-                buff.append(Character.toUpperCase(ch));
-                ct++;
+        String[] dirs = input.split("\n");
+        int[] stack = new int[dirs.length + 1];
+        int maxLen = 0;
+        for (String dir : dirs) {
+            int numOfTabs = dir.lastIndexOf("\t");
+            int level = numOfTabs + 1;
+            int curLevel = stack[level + 1] = stack[level] + dir.length() - level + 1;
+            if (dir.contains(".")) {
+                maxLen = Math.max(maxLen, curLevel - 1);
             }
         }
-        return buff.reverse().toString();
+        return maxLen;
     }
 }

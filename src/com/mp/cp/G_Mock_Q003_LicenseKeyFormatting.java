@@ -1,6 +1,6 @@
 package com.mp.cp;
 
-public class G_Mock_Q002_LicenseKeyFormatting {
+public class G_Mock_Q003_LicenseKeyFormatting {
     /**
      * You are given a license key represented as a string S which consists only alphanumeric character and dashes. The string is separated into N+1 groups by N dashes.
      * <p>

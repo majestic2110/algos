@@ -1,20 +1,22 @@
 package com.mp.cp;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Q0001_TwoSum {
-    public int[] twoSum(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return new int[]{};
+public class Q0011_ContainerWithMostWater {
+    public int maxArea(int[] height) {
+        if (height == null || height.length <= 1) {
+            return 0;
         }
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                return new int[]{map.get(target - nums[i]), i};
+        int maxArea = Integer.MIN_VALUE;
+        int left = 0;
+        int right = height.length - 1;
+        while (left < right) {
+            int minHeight = Math.min(height[left], height[right]);
+            maxArea = Math.max(maxArea, minHeight * (right - left));
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
             }
-            map.put(nums[i], i);
         }
-        return new int[]{};
+        return maxArea == Integer.MIN_VALUE ? 0 : maxArea;
     }
 }

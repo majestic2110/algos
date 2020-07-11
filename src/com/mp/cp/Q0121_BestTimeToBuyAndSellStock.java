@@ -1,20 +1,16 @@
 package com.mp.cp;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Q0001_TwoSum {
-    public int[] twoSum(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return new int[]{};
+public class Q0121_BestTimeToBuyAndSellStock {
+    public int maxProfit(int[] prices) {
+        if (prices == null || prices.length == 0) {
+            return 0;
         }
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                return new int[]{map.get(target - nums[i]), i};
-            }
-            map.put(nums[i], i);
+        int t_ki0 = 0;
+        int t_ki1 = Integer.MIN_VALUE;
+        for (int i = 0; i < prices.length; i++) {
+            t_ki0 = Math.max(t_ki0, prices[i] + t_ki1);
+            t_ki1 = Math.max(t_ki1, 0 - prices[i]);
         }
-        return new int[]{};
+        return t_ki0;
     }
 }

@@ -1,23 +1,26 @@
 package com.mp.cp;
 
-public class Q1099_TwoSumSmallerThanK {
+import java.util.Arrays;
 
-    public int[] sortArrayByParityII(int[] A) {
+public class Q1099_TwoSumLessThanK {
+    public int twoSumLessThanK(int[] A, int K) {
         if (A == null || A.length == 0) {
-            return A;
+            return 0;
         }
-        int[] res = new int[A.length];
-        int even = 0;
-        int odd = 1;
-        for (int i = 0; i < A.length; i++) {
-            if (A[i] % 2 == 0) {
-                res[even] = A[i];
-                even += 2;
+        int n = A.length;
+        int lessSum = -1;
+        Arrays.sort(A);
+        int start = 0;
+        int end = n - 1;
+        while (start < end) {
+            int sum = A[start] + A[end];
+            if (sum < K) {
+                lessSum = Math.max(lessSum, sum);
+                start++;
             } else {
-                res[odd] = A[i];
-                odd += 2;
+                end--;
             }
         }
-        return res;
+        return lessSum;
     }
 }

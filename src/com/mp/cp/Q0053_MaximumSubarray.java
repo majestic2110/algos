@@ -1,20 +1,16 @@
 package com.mp.cp;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Q0001_TwoSum {
-    public int[] twoSum(int[] nums, int target) {
+public class Q0053_MaximumSubarray {
+    public int maxSubArray(int[] nums) {
         if (nums == null || nums.length == 0) {
-            return new int[]{};
+            return 0;
         }
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                return new int[]{map.get(target - nums[i]), i};
-            }
-            map.put(nums[i], i);
+        int maxSum = nums[0];
+        int curSum = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            curSum = Math.max(nums[i], curSum + nums[i]);
+            maxSum = Math.max(maxSum, curSum);
         }
-        return new int[]{};
+        return maxSum;
     }
 }

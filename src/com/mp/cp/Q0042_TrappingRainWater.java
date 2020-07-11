@@ -1,31 +1,30 @@
 package com.mp.cp;
 
-import java.util.Arrays;
-
-public class Q0016_3SumClosest {
-
-    public int threeSumClosest(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
+public class Q0042_TrappingRainWater {
+    public int trap(int[] height) {
+        if (height == null || height.length == 0) {
             return 0;
         }
-        Arrays.sort(nums);
-        int n = nums.length;
-        int diff = Integer.MAX_VALUE;
-        for (int i = 0; i < n; i++) {
-            int start = i + 1;
-            int end = n - 1;
-            while (start < end) {
-                int sum = nums[i] + nums[start] + nums[end];
-                if (Math.abs(target - sum) < Math.abs(diff)) {
-                    diff = target - sum;
-                }
-                if (sum < target) {
-                    start++;
-                } else {
-                    end--;
-                }
+        int left = 0;
+        int right = height.length - 1;
+        int leftMax = 0;
+        int rightMax = 0;
+        int water = 0;
+        while (left < right) {
+            if (height[left] > leftMax) {
+                leftMax = height[left];
+            }
+            if (height[right] > rightMax) {
+                rightMax = height[right];
+            }
+            if (leftMax < rightMax) {
+                water += leftMax - height[left];
+                left++;
+            } else {
+                water += rightMax - height[right];
+                right--;
             }
         }
-        return target - diff;
+        return water;
     }
 }

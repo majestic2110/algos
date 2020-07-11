@@ -2,12 +2,14 @@ package com.mp.uf;
 
 public class WeightedQuickUnionII implements IUnionFind {
 
-    int[] id;
-    int[] sz;
+    private int[] id;
+    private int[] sz;
+    private int count;
 
     public WeightedQuickUnionII(int n) {
         this.id = new int[n];
         this.sz = new int[n];
+        this.count = n;
         for (int i = 0; i < n; i++) {
             this.id[i] = i;
         }
@@ -40,5 +42,14 @@ public class WeightedQuickUnionII implements IUnionFind {
             this.id[rootQ] = rootP;
             this.sz[rootP] += this.sz[rootQ];
         }
+        this.count--;
+    }
+
+    public int getCount() {
+        return this.count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

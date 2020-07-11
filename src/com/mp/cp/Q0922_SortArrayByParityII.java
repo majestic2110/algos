@@ -1,31 +1,23 @@
 package com.mp.cp;
 
-import java.util.Arrays;
+public class Q0922_SortArrayByParityII {
 
-public class Q0016_3SumClosest {
-
-    public int threeSumClosest(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return 0;
+    public int[] sortArrayByParityII(int[] A) {
+        if (A == null || A.length == 0) {
+            return A;
         }
-        Arrays.sort(nums);
-        int n = nums.length;
-        int diff = Integer.MAX_VALUE;
-        for (int i = 0; i < n; i++) {
-            int start = i + 1;
-            int end = n - 1;
-            while (start < end) {
-                int sum = nums[i] + nums[start] + nums[end];
-                if (Math.abs(target - sum) < Math.abs(diff)) {
-                    diff = target - sum;
-                }
-                if (sum < target) {
-                    start++;
-                } else {
-                    end--;
-                }
+        int[] res = new int[A.length];
+        int even = 0;
+        int odd = 1;
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] % 2 == 0) {
+                res[even] = A[i];
+                even += 2;
+            } else {
+                res[odd] = A[i];
+                odd += 2;
             }
         }
-        return target - diff;
+        return res;
     }
 }

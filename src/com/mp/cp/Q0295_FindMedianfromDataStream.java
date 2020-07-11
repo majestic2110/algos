@@ -1,30 +1,36 @@
 package com.mp.cp;
 
-public class Q0042_TrappingRainWater {
-    public int trap(int[] height) {
-        if (height == null || height.length == 0) {
-            return 0;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class Q0295_FindMedianfromDataStream {
+    class MedianFinder {
+        PriorityQueue<Integer> minQ;
+        PriorityQueue<Integer> maxQ;
+
+        /**
+         * initialize your data structure here.
+         */
+        public MedianFinder() {
+            minQ = new PriorityQueue<>();
+            maxQ = new PriorityQueue<>(Comparator.reverseOrder());
         }
-        int left = 0;
-        int right = height.length - 1;
-        int leftMax = 0;
-        int rightMax = 0;
-        int water = 0;
-        while (left < right) {
-            if (height[left] > leftMax) {
-                leftMax = height[left];
+
+        public void addNum(int num) {
+            minQ.add(num);
+            maxQ.offer(minQ.poll());
+            if (minQ.size() < maxQ.size()) {
+                minQ.add(maxQ.poll());
             }
-            if (height[right] > rightMax) {
-                rightMax = height[right];
-            }
-            if (leftMax < rightMax) {
-                water += leftMax - height[left];
-                left++;
+        }
+
+        public double findMedian() {
+            if (minQ.size() == maxQ.size()) {
+                return (double) (minQ.peek() + maxQ.peek()) / 2;
             } else {
-                water += rightMax - height[right];
-                right--;
+                return (double) minQ.peek();
             }
         }
-        return water;
     }
+
 }

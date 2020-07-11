@@ -1,22 +1,30 @@
 package com.mp.cp;
 
-public class Q0011_ContainerWithMostWater {
-    public int maxArea(int[] height) {
-        if (height == null || height.length <= 1) {
-            return 0;
+public class Q0075_SortColors {
+    public void sortColors(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
         }
-        int maxArea = Integer.MIN_VALUE;
-        int left = 0;
-        int right = height.length - 1;
-        while (left < right) {
-            int minHeight = Math.min(height[left], height[right]);
-            maxArea = Math.max(maxArea, minHeight * (right - left));
-            if (height[left] < height[right]) {
-                left++;
+        int start = 0;
+        int end = nums.length - 1;
+        int mid = 0;
+        while (mid <= end) {
+            if (nums[mid] == 0) {
+                swap(nums, start, mid);
+                start++;
+                mid++;
+            } else if (nums[mid] == 2) {
+                swap(nums, mid, end);
+                end--;
             } else {
-                right--;
+                mid++;
             }
         }
-        return maxArea == Integer.MIN_VALUE ? 0 : maxArea;
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }

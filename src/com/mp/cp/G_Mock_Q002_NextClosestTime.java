@@ -1,67 +1,48 @@
 package com.mp.cp;
 
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 
-public class G_Mock_Q002_KEmptySlots {
+public class G_Mock_Q002_NextClosestTime {
     /**
-     * You have N bulbs in a row numbered from 1 to N. Initially, all the bulbs are turned off. We turn on exactly one bulb everyday until all bulbs are on after N days.
+     * Given a time represented in the format "HH:MM", form the next closest time by reusing the current digits. There is no limit on how many times a digit can be reused.
      * <p>
-     * You are given an array bulbs of length N where bulbs[i] = x means that on the (i+1)th day, we will turn on the bulb at position x where i is 0-indexed and x is 1-indexed.
-     * <p>
-     * Given an integer K, find out the minimum day number such that there exists two turned on bulbs that have exactly K bulbs between them that are all turned off.
-     * <p>
-     * If there isn't such day, return -1
+     * You may assume the given input string is always valid. For example, "01:34", "12:09" are all valid. "1:34", "12:9" are all invalid.
      * <p>
      * Example 1:
      * <p>
-     * Input:
-     * bulbs: [1,3,2]
-     * K: 1
-     * Output: 2
-     * Explanation:
-     * On the first day: bulbs[0] = 1, first bulb is turned on: [1,0,0]
-     * On the second day: bulbs[1] = 3, third bulb is turned on: [1,0,1]
-     * On the third day: bulbs[2] = 2, second bulb is turned on: [1,1,1]
-     * We return 2 because on the second day, there were two on bulbs with one off bulb between them.
+     * Input: "19:34"
+     * Output: "19:39"
+     * Explanation: The next closest time choosing from digits 1, 9, 3, 4, is 19:39, which occurs 5 minutes later.  It is not 19:33, because this occurs 23 hours and 59 minutes later.
      * Example 2:
      * <p>
-     * Input:
-     * bulbs: [1,2,3]
-     * K: 1
-     * Output: -1
-     * <p>
-     * <p>
-     * Note:
-     * <p>
-     * 1 <= N <= 20000
-     * 1 <= bulbs[i] <= N
-     * bulbs is a permutation of numbers from 1 to N.
-     * 0 <= K <= 20000
+     * Input: "23:59"
+     * Output: "22:22"
+     * Explanation: The next closest time choosing from digits 2, 3, 5, 9, is 22:22. It may be assumed that the returned time is next day's time since it is smaller than the input time numerically.
      *
-     * @param bulbs
-     * @param K
+     * @param time
      * @return
      */
-    public int kEmptySlots(int[] bulbs, int K) {
-        if (bulbs == null || bulbs.length - 2 < K) {
-            return -1;
+
+    public String nextClosestTime(String time) {
+        if (time == null || time.length() != 5) {
+            return "";
         }
-        TreeSet<Integer> map = new TreeSet<>();
-        map.add(Integer.MIN_VALUE);
-        map.add(Integer.MAX_VALUE);
-        int count = 0;
-        for (int bulb : bulbs) {
-            Integer leftMax = map.floor(bulb);
-            Integer rightMax = map.ceiling(bulb);
-            count++;
-            if (rightMax - bulb - 1 == K) {
-                return count;
+        String buff = "";
+        int orghrs = (time.charAt(0) - '0') * 10 + (time.charAt(1) - '0');
+        int orgmins = (time.charAt(3) - '0') * 10 + (time.charAt(4) - '0');
+        int orgTime = orghrs * 60 + orgmins;
+        Set<Integer> set = new HashSet<>();
+        for (char ch : time.toCharArray()) {
+            if (ch != ':') {
+                set.add(ch - '0');
             }
-            if (bulb - leftMax - 1 == K) {
-                return count;
-            }
-            map.add(bulb);
         }
-        return -1;
+        while (true) {
+            orgTime = (orgTime + 1) % (24 * 60);
+            if (set.contains(orgTime / 60 / 10) && set.contains(orgTime / 60 % 10) && set.contains(orgTime % 60 / 10) && set.contains(orgTime % 60 % 10)) {
+                return String.format("%02d:%02d", orgTime / 60, orgTime % 60);
+            }
+        }
     }
 }

@@ -1,7 +1,20 @@
 package com.mp.cp;
 
-public class G_Mock_Q001_DivisorGame {
-    public boolean divisorGame(int N) {
-        return N % 2 == 0;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Q0001_TwoSum {
+    public int[] twoSum(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return new int[]{};
+        }
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
+            }
+            map.put(nums[i], i);
+        }
+        return new int[]{};
     }
 }
