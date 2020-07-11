@@ -1,4 +1,4 @@
-package com.mp.p2;
+package com.mp.cp;
 
 import java.util.Arrays;
 
