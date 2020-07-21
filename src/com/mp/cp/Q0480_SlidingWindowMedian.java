@@ -1,24 +1,32 @@
 package com.mp.cp;
 
-public class Q0167_TwoSumII_InputArrayIsSorted {
-    public int[] twoSum(int[] numbers, int target) {
-        if (numbers == null || numbers.length == 0) {
-            return new int[]{};
+import java.util.Collections;
+import java.util.PriorityQueue;
+
+public class Q0480_SlidingWindowMedian {
+    public double[] medianSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return new double[]{};
         }
-        int n = numbers.length;
-        int left = 0;
-        int right = n - 1;
-        int sum = 0;
-        while (left < right) {
-            sum = numbers[left] + numbers[right];
-            if (sum == target) {
-                return new int[]{left + 1, right + 1};
-            } else if (sum < target) {
-                left++;
-            } else {
-                right--;
+        int n = nums.length;
+        double[] win = new double[n - k + 1];
+        PriorityQueue<Integer> minQ = new PriorityQueue<>();
+        PriorityQueue<Integer> maxQ = new PriorityQueue<>(Collections.reverseOrder());
+        int index = 0;
+        for (int i = 0; i < n; i++) {
+            minQ.add(nums[i]);
+            maxQ.add(minQ.poll());
+            if (minQ.size() < maxQ.size()) {
+                minQ.add(maxQ.poll());
+            }
+            if (minQ.size() + maxQ.size() == k) {
+                win[index] = minQ.size() == maxQ.size() ? (double) ((long) minQ.peek() + (long) maxQ.peek()) / 2 : (double) minQ.peek();
+                if (!minQ.remove(nums[index])) {
+                    maxQ.remove(nums[index]);
+                }
+                index++;
             }
         }
-        return new int[]{};
+        return win;
     }
 }

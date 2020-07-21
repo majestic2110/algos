@@ -1,32 +1,29 @@
 package com.mp.cp;
 
-import java.util.Collections;
-import java.util.PriorityQueue;
+import java.util.Arrays;
 
-public class Q0480_SlidingWindowMedian {
-    public double[] medianSlidingWindow(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            return new double[]{};
+public class Q1471_TheKStrongestValuesInAnArray {
+
+    public int[] getStrongest(int[] arr, int k) {
+        if (arr == null || arr.length == 0) {
+            return new int[]{};
         }
-        int n = nums.length;
-        double[] win = new double[n - k + 1];
-        PriorityQueue<Integer> minQ = new PriorityQueue<>();
-        PriorityQueue<Integer> maxQ = new PriorityQueue<>(Collections.reverseOrder());
+        int[] strong = new int[k];
+        Arrays.sort(arr);
         int index = 0;
-        for (int i = 0; i < n; i++) {
-            minQ.add(nums[i]);
-            maxQ.add(minQ.poll());
-            if (minQ.size() < maxQ.size()) {
-                minQ.add(maxQ.poll());
+        int median = arr[(arr.length - 1) / 2];
+        int start = 0;
+        int end = arr.length - 1;
+        while (index < k) {
+            if (median - arr[start] > arr[end] - median) {
+                strong[index] = arr[start];
+                start++;
+            } else {
+                strong[index] = arr[end];
+                end--;
             }
-            if (minQ.size() + maxQ.size() == k) {
-                win[index] = minQ.size() == maxQ.size() ? (double) ((long) minQ.peek() + (long) maxQ.peek()) / 2 : (double) minQ.peek();
-                if (!minQ.remove(nums[index])) {
-                    maxQ.remove(nums[index]);
-                }
-                index++;
-            }
+            index++;
         }
-        return win;
+        return strong;
     }
 }

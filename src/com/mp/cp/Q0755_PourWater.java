@@ -1,17 +1,38 @@
 package com.mp.cp;
 
-public class Q0714_BestTimeToBuyAndSellStockFee {
-    public int maxProfit(int[] prices, int fee) {
-        if (prices == null || prices.length == 0) {
-            return 0;
+public class Q0755_PourWater {
+
+    public int[] pourWater(int[] heights, int V, int K) {
+        if (heights == null || heights.length == 0) {
+            return new int[]{};
         }
-        int t_ki0 = 0;
-        int t_ki1 = Integer.MIN_VALUE;
-        for (int i = 0; i < prices.length; i++) {
-            int t_ki0_old = t_ki0;
-            t_ki0 = Math.max(t_ki0, prices[i] + t_ki1);
-            t_ki1 = Math.max(t_ki1, t_ki0_old - prices[i] - fee);
+        int n = heights.length;
+        int[] diff = new int[n];
+        for (int i = 0; i < n; i++) {
+            diff[i] = heights[K] - heights[i];
         }
-        return t_ki0;
+        int left = K - 1;
+        int right = K + 1;
+        int wt = 0;
+        while (wt <= K) {
+            if (left >= 0 && diff[left] > diff[K]) {
+                diff[left]--;
+                heights[left]++;
+                if (diff[left] == diff[K]) {
+                    left--;
+                }
+            } else if (right <= diff.length - 1 && diff[right] > diff[K]) {
+                diff[right]--;
+                heights[right]++;
+                if (diff[right] == diff[K]) {
+                    right++;
+                }
+            } else {
+                diff[K]--;
+                heights[K]++;
+            }
+            wt++;
+        }
+        return heights;
     }
 }
