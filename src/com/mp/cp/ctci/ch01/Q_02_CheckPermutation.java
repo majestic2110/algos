@@ -1,6 +1,6 @@
 package com.mp.cp.ctci.ch01;
 
-public class CheckPermutation {
+public class Q_02_CheckPermutation {
     /**
      * If a string is a permutation os another
      *

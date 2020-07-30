@@ -1,6 +1,6 @@
 package com.mp.cp.ctci.ch01;
 
-public class UniqueString {
+public class Q_01_UniqueString {
     /**
      * If a string has all unique characters.
      * - hash map O(n) with O(n) space
