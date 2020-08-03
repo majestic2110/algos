@@ -18,4 +18,14 @@ public class Node {
         buff.append("null");
         return buff.toString();
     }
+
+    public int size() {
+        int size = 0;
+        Node temp = this;
+        while (temp != null) {
+            size++;
+            temp = temp.next;
+        }
+        return size;
+    }
 }
